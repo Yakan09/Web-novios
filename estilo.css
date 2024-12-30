@@ -1,0 +1,212 @@
+/* Estilo general */
+body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif; /* Cambiado a fuente Roboto */
+    background-color: #676767; /* Gris uniforme para todo el fondo */
+    color: #333;
+}
+
+/* Estilo del header */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: #b43aec; /* Azul principal */
+    color: white;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+header a {
+    text-decoration: none;
+    color: white; /* Elimina subrayado */
+}
+
+/* Estilo del menú */
+.menu {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #6c11d4; /* Azul oscuro */
+    padding: 10px 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    margin: 0 15px;
+    font-size: 1.2rem;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+/* Slider */
+.slider {
+    width: 100%; /* El slider ocupa el 100% del ancho */
+    overflow: hidden; /* Oculta lo que quede fuera del contenedor */
+    margin-top: 20px;
+    text-align: center;
+    position: relative; /* Posicionamiento relativo para el contenido dentro */
+}
+
+.slider-images {
+    display: flex;
+    animation: slide 20s linear infinite; /* Deslizar hacia la derecha lentamente */
+}
+
+.slider-images img {
+    width: 1100px; /* Tamaño del ancho de las imágenes */
+    height: 700px; /* Altura fija para las imágenes */
+    object-fit: cover; /* Asegura que las imágenes se ajusten sin distorsionarse */
+    flex-shrink: 0; /* Evita que las imágenes se reduzcan al ser apiladas */
+}
+
+/* Texto en el centro del slider */
+.slider-text {
+    position: absolute; /* Posiciona el texto de manera absoluta */
+    top: 50%; /* Lo coloca en el centro verticalmente */
+    left: 50%; /* Lo coloca en el centro horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta el texto perfectamente al centro */
+    color: white; /* Color blanco para el texto */
+    font-size: 3rem; /* Tamaño del texto */
+    font-weight: bold; /* Hace el texto en negrita */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Sombra para mejorar la legibilidad */
+    z-index: 10; /* Asegura que el texto esté por encima de las imágenes */
+}
+
+/* Animación del slider */
+@keyframes slide {
+    0% {
+        transform: translateX(0); /* Inicia en la posición inicial */
+    }
+    100% {
+        transform: translateX(-100%); /* Mueve la imagen completamente hacia la izquierda */
+    }
+}
+
+/* Zona de Imágenes en filas de 4 */
+.image-gallery {
+    display: grid; /* Utiliza el layout de grid */
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+    gap: 40px; /* Espacio entre las imágenes */
+    padding: 20px;
+    justify-items: center; /* Centra las imágenes dentro de las celdas */
+    margin-top: 30px;
+}
+
+.image-gallery img {
+    width: 100%; /* La imagen ocupa todo el espacio disponible en su contenedor */
+    height: 500px; /* Altura fija para todas las imágenes */
+    object-fit: cover; /* Ajusta la imagen sin distorsionar */
+    max-width: 900px; /* Tamaño máximo de la imagen */
+    border-radius: 8px; /* Bordes redondeados para las imágenes */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Zona de Videos en filas de 4 */
+.video-gallery {
+    display: grid; /* Utiliza el layout de grid */
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+    gap: 10px; /* Espacio entre los videos */
+    padding: 20px;
+    justify-items: center; /* Centra los videos dentro de las celdas */
+    margin-top: 30px;
+}
+
+.video-gallery video {
+    width: 100%; /* El video ocupa todo el espacio disponible */
+    height: 200px; /* Altura fija para todos los videos */
+    object-fit: cover; /* Ajusta el video sin distorsionar */
+    max-width: 250px; /* Tamaño máximo del video */
+    border-radius: 8px; /* Bordes redondeados para los videos */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/*Container*/
+.container {
+    color: white;
+    padding: 20px; /* Espaciado interior */
+    margin: 20px;  /* Espaciado exterior */
+}
+
+/* Texto Motivador */
+.motivational-text {
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 2px solid white; /* Línea separadora blanca */
+    width: 80%; /* Ajustar el ancho de la línea */
+    margin: 0 auto; /* Centrar la línea */
+}
+
+.motivational-text h2 {
+    font-size: 2rem;
+    color: #b43aec;
+}
+
+.motivational-text p {
+    font-size: 1.1rem;
+    color: white;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Formulario de contacto */
+.contact-form {
+    padding: 40px 20px;
+    margin-top: 30px;
+    text-align: center;
+    border-top: 2px solid white; /* Línea separadora blanca */
+    width: 80%; /* Ajustar el ancho de la línea */
+    margin: 0 auto; /* Centrar la línea */
+}
+
+.contact-form h2 {
+    font-size: 2rem;
+    color: #b43aec;
+}
+
+.contact-form form {
+    display: grid;
+    gap: 15px;
+    justify-items: center;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-form button {
+    padding: 12px 20px;
+    background-color: #b43aec;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background-color: #6c11d4;
+}
+
+/* Estilo del footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: #f4f4f4;
+    font-size: 0.9rem;
+    border-top: 2px solid white; /* Línea separadora blanca */
+    width: 100%; /* Ajustar el ancho de la línea */
+    margin: 0 auto; /* Centrar la línea */
+}
