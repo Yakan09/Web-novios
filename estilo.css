@@ -165,6 +165,7 @@ header a {
     border-top: 2px solid white; /* Línea separadora blanca */
     width: 80%; /* Ajustar el ancho de la línea */
     margin: 0 auto; /* Centrar la línea */
+    color: white;
 }
 
 .contact-form h2 {
