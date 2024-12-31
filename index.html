@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="formulario">
+        <h1>Inicio de sesión</h1>
+        <form id="loginForm">
+            <div class="username">
+                <input type="text" id="username" required>
+                <label>Nombre de usuario</label>
+            </div>
+            <div class="username">
+                <input type="password" id="password" required>
+                <label>Contraseña</label>
+            </div>
+            <input type="submit" value="Iniciar">
+        </form>
+    </div>
+    <script>
+        // Credenciales válidas (usuario y contraseña cifrados)
+        const validCredentials = {
+            usernameHash: "a2bef5f24027056f18d01e0e73ae655d5302196b02568e9ce58e2174d5a93562", 
+            passwordHash: "3fa217f31dea84394c602de23b306b7f5b906ef5490728217b54bcf8808af560"  
+        };
+
+        // Función para generar el hash SHA-256 de una cadena
+        async function hashInput(input) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Manejador del evento de envío del formulario
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evitar que el formulario recargue la página
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Cifrar las credenciales ingresadas
+            const usernameHash = await hashInput(username);
+            const passwordHash = await hashInput(password);
+
+            // Mostrar en consola los valores de hash generados para depuración
+            console.log("Usuario ingresado:", username);
+            console.log("Contraseña ingresada:", password);
+            console.log("Usuario Hash ingresado:", usernameHash);
+            console.log("Contraseña Hash ingresada:", passwordHash);
+
+            // Verificar credenciales cifradas
+            if (usernameHash === validCredentials.usernameHash && passwordHash === validCredentials.passwordHash) {
+                // Redirigir a la página principal
+                window.location.href = "principal.html";
+            } else {
+                // Mostrar un mensaje de error
+                alert("Usuario o contraseña incorrectos.");
+            }
+        });
+    </script>
+</body>
+</html>
