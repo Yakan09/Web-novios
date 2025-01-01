@@ -74,6 +74,8 @@ header a {
     margin-top: 20px;
     text-align: center;
     position: relative; /* Posicionamiento relativo para el contenido dentro */
+    margin: 0;
+    padding: 0;
 }
 
 .slider-images {
@@ -91,7 +93,7 @@ header a {
 /* Texto en el centro del slider */
 .slider-text {
     position: absolute; /* Posiciona el texto de manera absoluta */
-    top: 50%; /* Lo coloca en el centro verticalmente */
+    top: 60%; /* Lo coloca en el centro verticalmente */
     left: 50%; /* Lo coloca en el centro horizontalmente */
     transform: translate(-50%, -50%); /* Ajusta el texto perfectamente al centro */
     color: white; /* Color blanco para el texto */
