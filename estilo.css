@@ -1,7 +1,7 @@
 /* Estilo general */
 body {
     margin: 0;
-    font-family: 'Roboto', Arial, sans-serif; /* Cambiado a fuente Roboto */
+    font-family: 'Californian FB', serif; /* Cambiado a fuente Roboto */
     background-color: #676767; /* Gris uniforme para todo el fondo */
     color: #333;
 }
@@ -24,6 +24,26 @@ header h1 {
 header a {
     text-decoration: none;
     color: white; /* Elimina subrayado */
+}
+
+/* Estilo de la sección de tiempo transcurrido */
+#time-passed {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    text-align: center; /* Centrado del texto */
+    background-color: #8e32f7; /* Fondo con color azul oscuro */
+    padding: 20px 0; /* Espaciado arriba y abajo */
+    color: white; /* Color blanco para el texto */
+    font-size: 1.5rem; /* Tamaño de la fuente */
+}
+
+#time-passed h3 {
+    margin: 0;
+    font-size: 2rem; /* Tamaño de fuente para el título */
+}
+
+#time-passed p {
+    font-size: 1.2rem; /* Tamaño de fuente para el tiempo calculado */
+    font-weight: bold; /* Resaltar el tiempo calculado */
 }
 
 /* Estilo del menú */
@@ -210,4 +230,49 @@ footer {
     border-top: 2px solid white; /* Línea separadora blanca */
     width: 100%; /* Ajustar el ancho de la línea */
     margin: 0 auto; /* Centrar la línea */
+}
+
+/* Estilos para la sección de planes */
+.plan-section {
+    padding: 20px;
+    border-top: 2px solid white;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.plan-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.plan-list li {
+    background-color: #6c11d4;
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.plan-list li span {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.plan-list li button {
+    background-color: #b43aec;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.plan-list li button:hover {
+    background-color: #6c11d4;
 }
