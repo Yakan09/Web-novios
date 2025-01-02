@@ -278,3 +278,40 @@ footer {
 .plan-list li button:hover {
     background-color: #6c11d4;
 }
+
+/* Estilo general para el mapa */
+#map {
+    height: 100vh; /* Altura completa de la ventana */
+}
+
+/* Estilo del texto que aparece al pasar el ratón sobre el marcador (tooltip) */
+.leaflet-tooltip {
+    font-size: 14px;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Efecto de hover sobre los marcadores */
+.leaflet-marker-icon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    transition: transform 0.2s ease; /* Transición suave al pasar el ratón */
+}
+
+/* Estilo para los botones de eliminación dentro del popup */
+.leaflet-popup button {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.leaflet-popup button:hover {
+    background-color: #d32f2f;
+}

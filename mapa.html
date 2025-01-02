@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Mapa de Recuerdos</title>
+</head>
+<body>
+
+    <!-- Header con la zona segura y el menú -->
+    <header>
+        <!-- Zona segura -->
+        <a href="principal.html"><h1>Zona Segura</h1></a>
+
+        <!-- Menú principal -->
+        <div class="menu">
+            <a href="imagenes.html">Imágenes</a>
+            <a href="videos.html">Videos</a>
+            <a href="planes.html">Planes</a>
+            <a href="mapa.html">Mapa</a>
+        </div>
+    </header>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Crear el mapa centrado en una ubicación específica (por ejemplo, Madrid)
+        const map = L.map('map').setView([40.4168, -3.7038], 13); // Madrid, España
+
+        // Agregar capa de mapa de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Función para guardar la ubicación de varios marcadores en el almacenamiento local
+        function saveLocations(locations) {
+            localStorage.setItem('markerLocations', JSON.stringify(locations));
+        }
+
+        // Función para cargar los marcadores desde el almacenamiento local
+        function loadSavedLocations() {
+            const savedLocations = JSON.parse(localStorage.getItem('markerLocations'));
+            if (savedLocations) {
+                savedLocations.forEach(location => {
+                    createMarker(location.lat, location.lng, location.name, location.description, location.photo);
+                });
+            }
+        }
+
+        // Llamar a la función para cargar los marcadores guardados al inicio
+        loadSavedLocations();
+
+        // Lista para almacenar las ubicaciones
+        let markerLocations = JSON.parse(localStorage.getItem('markerLocations')) || [];
+
+        // Función para agregar un marcador al hacer clic en el mapa
+        map.on('click', function(e) {
+            const { lat, lng } = e.latlng;
+
+            // Solicitar información adicional del marcador
+            const name = prompt("¿Cómo se llama este lugar?");
+            const description = prompt("Escribe una descripción para este lugar:");
+            const photo = prompt("Introduce una URL de una foto para este lugar (opcional):");
+
+            if (name && description) {
+                // Crear el marcador con el nombre, descripción y foto
+                createMarker(lat, lng, name, description, photo);
+
+                // Guardar la nueva ubicación
+                markerLocations.push({ lat, lng, name, description, photo });
+                saveLocations(markerLocations);
+            }
+        });
+
+        // Función para crear un marcador con color aleatorio
+        function createMarker(lat, lng, name, description, photo) {
+            // Generar un color aleatorio para el marcador
+            const color = getRandomColor();
+
+            // Crear un icono personalizado con el color aleatorio
+            const icon = L.divIcon({
+                className: 'custom-icon',
+                html: `<div style="background-color: ${color}; width: 20px; height: 30px; border-radius: 50%; border: 2px solid #fff;"></div>`,
+                iconSize: [20, 30], // Tamaño del icono
+                iconAnchor: [10, 30], // Pivote del icono (donde el marcador toca el mapa)
+            });
+
+            const marker = L.marker([lat, lng], { icon: icon }).addTo(map)
+                .bindPopup(`
+                    <b>${name}</b><br>
+                    ${description}<br>
+                    ${photo ? `<img src="${photo}" alt="Foto del lugar" style="width: 100px; height: 100px; object-fit: cover;">` : ""}
+                    <br><button onclick="deleteMarker(${lat}, ${lng})">Eliminar</button>
+                `)
+                .on('mouseover', function() {
+                    this.openTooltip(); // Abre el tooltip cuando pasas el ratón
+                })
+                .on('mouseout', function() {
+                    this.closeTooltip(); // Cierra el tooltip cuando quitas el ratón
+                })
+                .bindTooltip(name, { permanent: false, direction: 'top' }); // Muestra el nombre en el tooltip al pasar el ratón
+        }
+
+        // Función para generar un color aleatorio
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Función para eliminar un marcador
+        function deleteMarker(lat, lng) {
+            // Eliminar el marcador del mapa
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker && layer.getLatLng().lat === lat && layer.getLatLng().lng === lng) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            // Eliminar la ubicación de la lista y actualizar el almacenamiento local
+            markerLocations = markerLocations.filter(location => !(location.lat === lat && location.lng === lng));
+            saveLocations(markerLocations);
+        }
+    </script>
+
+</body>
+</html>
