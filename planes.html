@@ -25,95 +25,17 @@
     <main class="container">
         <section class="plan-section">
             <h2 style="color:white;">Gestión de Planes</h2>
-            <form id="planForm" class="contact-form">
-                <input type="text" id="planInput" placeholder="Nombre del plan..." required>
-                <input type="date" id="planDate" required>
+            <form id="planForm" class="contact-form" action="http://localhost/miProyecto/guardar_plan.php" method="POST">
+                <input type="text" name="plan" placeholder="Nombre del plan..." required>
+                <input type="date" name="fecha" required>
+
                 <button type="submit">Agregar Plan</button>
             </form>
-            <ul id="planList" class="plan-list"></ul>
         </section>
     </main>
 
     <footer>
         <p>&copy; Todas estas imágenes están protegidas por la seguridad de los novios</p>
     </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const planForm = document.getElementById("planForm");
-            const planInput = document.getElementById("planInput");
-            const planDate = document.getElementById("planDate");
-            const planList = document.getElementById("planList");
-
-            // Cargar los planes guardados en el Local Storage
-            const loadPlans = () => {
-                const storedPlans = JSON.parse(localStorage.getItem('plans')) || [];
-                planList.innerHTML = '';
-                storedPlans.forEach(plan => {
-                    addPlanToList(plan.text, plan.date);
-                });
-            };
-
-            // Guardar los planes en el Local Storage
-            const savePlans = () => {
-                const plans = [];
-                const planItems = document.querySelectorAll('.plan-list li');
-                planItems.forEach(item => {
-                    const planText = item.querySelector('span').textContent;
-                    const planDate = item.querySelector('span').textContent.split(' - ')[1].replace('Fecha: ', '');
-                    plans.push({ text: planText, date: planDate });
-                });
-                localStorage.setItem('plans', JSON.stringify(plans));
-            };
-
-            // Añadir un plan a la lista
-            const addPlanToList = (text, date) => {
-                const listItem = document.createElement("li");
-
-                const planContent = document.createElement("span");
-                planContent.textContent = `${text} - Fecha: ${date}`;
-
-                const doneButton = document.createElement("button");
-                doneButton.textContent = "Hecho";
-                doneButton.addEventListener("click", () => {
-                    listItem.style.textDecoration = "line-through";
-                    doneButton.disabled = true;
-                    doneButton.textContent = "Completado";
-                    savePlans();  // Guardar al marcar el plan como hecho
-                });
-
-                const deleteButton = document.createElement("button");
-                deleteButton.textContent = "Eliminar";
-                deleteButton.addEventListener("click", () => {
-                    listItem.remove();  // Eliminar de la interfaz
-                    savePlans();  // Actualizar Local Storage
-                });
-
-                listItem.appendChild(planContent);
-                listItem.appendChild(doneButton);
-                listItem.appendChild(deleteButton);
-                planList.appendChild(listItem);
-            };
-
-            // Manejar el envío del formulario
-            planForm.addEventListener("submit", (e) => {
-                e.preventDefault(); // Evitar el recargo de la página
-                const planText = planInput.value.trim();
-                const planDateValue = planDate.value;
-
-                if (planText !== "" && planDateValue !== "") {
-                    // Añadir el plan a la lista
-                    addPlanToList(planText, planDateValue);
-                    savePlans();  // Guardar los planes en Local Storage
-                    // Limpiar los campos de entrada
-                    planInput.value = "";
-                    planDate.value = "";
-                }
-            });
-
-            // Cargar los planes cuando la página se carga
-            loadPlans();
-        });
-    </script>
 </body>
 </html>
