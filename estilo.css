@@ -224,7 +224,6 @@ header a {
 
 /* Estilo del footer */
 footer {
-    position: fixed; /* Fijo en la parte inferior */
     bottom: 0; /* Asegura que esté en la parte inferior */
     width: 100%; /* Ocupa todo el ancho */
     background-color: #333;
