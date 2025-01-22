@@ -224,45 +224,93 @@ header a {
 
 /* Estilo del footer */
 footer {
-    text-align: center;
-    padding: 10px;
+    position: fixed; /* Fijo en la parte inferior */
+    bottom: 0; /* Asegura que esté en la parte inferior */
+    width: 100%; /* Ocupa todo el ancho */
     background-color: #333;
     color: #f4f4f4;
+    padding: 15px 0; /* Espaciado interno */
+    text-align: center;
     font-size: 0.9rem;
     border-top: 2px solid white; /* Línea separadora blanca */
-    width: 100%; /* Ajustar el ancho de la línea */
-    margin: 0 auto; /* Centrar la línea */
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
-
 /* Estilos para la sección de planes */
+/* Contenedor de la sección "Planes" */
 .plan-section {
-    padding: 20px;
-    border-top: 2px solid white;
-    margin-top: 30px;
+    max-width: 800px; /* Limita el ancho de la barra */
+    margin: 40px auto; /* Agrega un margen superior para separar del menú y centra la barra */
+    padding: 20px; /* Espaciado interior */
+    border-top: 2px solid white; /* Línea separadora */
     text-align: center;
+    background-color: #555; /* Fondo más oscuro opcional */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para un mejor diseño */
 }
 
+/* Título "Planes" */
+.plan-section h2 {
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px; /* Espaciado debajo del título */
+}
+
+/* Estilo del formulario */
+.plan-section form {
+    display: flex;
+    justify-content: space-between; /* Espaciado uniforme entre los elementos */
+    gap: 10px; /* Separación entre las cajas */
+    align-items: center;
+    margin-bottom: 20px; /* Espaciado debajo del formulario */
+}
+
+.plan-section input[type="text"], .plan-section input[type="date"] {
+    flex: 1; /* Los inputs ocuparán el mismo espacio */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 300px; /* Limita el tamaño máximo de las cajas */
+}
+
+.plan-section button {
+    padding: 10px 20px;
+    background-color: #b43aec;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.plan-section button:hover {
+    background-color: #6c11d4;
+}
+
+/* Lista de planes */
 .plan-list {
-    list-style: none;
+    list-style: none; /* Elimina las viñetas */
     padding: 0;
-    margin-top: 20px;
+    margin: 0; /* Ajusta márgenes */
 }
 
 .plan-list li {
-    background-color: #6c11d4;
-    color: white;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #6c11d4;
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 10px; /* Espaciado entre los planes */
+    border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .plan-list li span {
     flex-grow: 1;
     text-align: left;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 .plan-list li button {
@@ -272,13 +320,50 @@ footer {
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 10px; /* Espacio entre los botones */
+    font-size: 0.9rem;
 }
 
 .plan-list li button:hover {
-    background-color: #6c11d4;
+    background-color: #8e32f7;
 }
 
+.plan-section form {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espacio entre los elementos del formulario */
+    margin-top: 20px;
+}
+
+.plan-section input {
+    padding: 10px;
+    border: 2px solid #b43aec; /* Color de borde */
+    border-radius: 5px;
+    background-color: white;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    color: #333;
+}
+
+.plan-section input:focus {
+    outline: none;
+    border-color: #6c11d4; /* Color al hacer focus */
+}
+
+.plan-section button {
+    padding: 10px 20px;
+    background-color: #b43aec;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+.plan-section button:hover {
+    background-color: #6c11d4; /* Cambio de color al pasar el ratón */
+}
 /* Estilo general para el mapa */
 #map {
     height: 100vh; /* Altura completa de la ventana */
@@ -314,23 +399,4 @@ footer {
 
 .leaflet-popup button:hover {
     background-color: #d32f2f;
-}
-/*Planes mensaje*/
-.plan-actions button {
-    padding: 5px 10px;
-    margin: 0 5px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.plan-actions button:hover {
-    background-color: #45a049;
-}
-
-.plan-actions form {
-    display: inline-block;
 }
