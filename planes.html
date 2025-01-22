@@ -6,6 +6,79 @@
     <link rel="stylesheet" href="estilo.css">
     <link rel="icon" href="Imagenes/favicon.png" type="image/x-icon">
     <title>Nuestros recuerdos</title>
+
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAMRyKtW8gh-gdkuy183mKvV7gDEQXi6F4",
+            authDomain: "gestion-de-planes.firebaseapp.com",
+            projectId: "gestion-de-planes",
+            storageBucket: "gestion-de-planes.firebasestorage.app",
+            messagingSenderId: "426489473244",
+            appId: "1:426489473244:web:31f7ed80593cc225736c19",
+            measurementId: "G-267HR4361L"
+        };
+
+        // Inicializar Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        // Función para agregar un plan
+        async function agregarPlan(event) {
+            event.preventDefault(); // Prevenir el envío del formulario
+
+            const nombrePlan = document.getElementById("planInput").value;
+            const fechaPlan = document.getElementById("planDate").value;
+
+            if (nombrePlan && fechaPlan) {
+                try {
+                    // Agregar el plan a Firestore
+                    await db.collection("planes").add({
+                        nombre: nombrePlan,
+                        fecha: fechaPlan
+                    });
+
+                    // Limpiar los campos del formulario
+                    document.getElementById("planInput").value = "";
+                    document.getElementById("planDate").value = "";
+
+                    // Actualizar la lista de planes
+                    cargarPlanes();
+                } catch (error) {
+                    console.error("Error al agregar el plan: ", error);
+                }
+            }
+        }
+
+        // Función para cargar los planes desde Firestore
+        async function cargarPlanes() {
+            const planList = document.getElementById("planList");
+            planList.innerHTML = ""; // Limpiar la lista antes de cargarla
+
+            try {
+                const snapshot = await db.collection("planes").get();
+                snapshot.forEach(doc => {
+                    const plan = doc.data();
+                    const planItem = document.createElement("li");
+                    planItem.textContent = `${plan.nombre} - Fecha: ${plan.fecha}`;
+                    planList.appendChild(planItem);
+                });
+            } catch (error) {
+                console.error("Error al cargar los planes: ", error);
+            }
+        }
+
+        // Cargar los planes al cargar la página
+        window.onload = function() {
+            cargarPlanes(); // Asegúrate de que los planes se carguen al inicio
+            // Asociar la función agregarPlan al formulario
+            document.getElementById("planForm").onsubmit = agregarPlan;
+        };
+    </script>
 </head>
 <body>
     <header>
@@ -25,12 +98,19 @@
     <main class="container">
         <section class="plan-section">
             <h2 style="color:white;">Gestión de Planes</h2>
-            <form id="planForm" class="contact-form" action="guardar_plan.php" method="POST">
-                <input type="text" name="plan" placeholder="Nombre del plan..." required>
-                <input type="date" name="fecha" required>
+
+            <!-- Formulario para agregar un plan -->
+            <form id="planForm" class="contact-form">
+                <input type="text" id="planInput" placeholder="Nombre del plan..." required>
+                <input type="date" id="planDate" required>
 
                 <button type="submit">Agregar Plan</button>
             </form>
+
+            <!-- Lista de planes -->
+            <ul id="planList" class="plan-list">
+                <!-- Los planes serán cargados aquí -->
+            </ul>
         </section>
     </main>
 
