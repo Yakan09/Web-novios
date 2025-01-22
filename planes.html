@@ -6,111 +6,100 @@
     <link rel="stylesheet" href="estilo.css">
     <link rel="icon" href="Imagenes/favicon.png" type="image/x-icon">
     <title>Nuestros recuerdos</title>
-
-    <!-- Firebase JS SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-
     <script>
-        // Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyAMRyKtW8gh-gdkuy183mKvV7gDEQXi6F4",
-            authDomain: "gestion-de-planes.firebaseapp.com",
-            projectId: "gestion-de-planes",
-            storageBucket: "gestion-de-planes.firebasestorage.app",
-            messagingSenderId: "426489473244",
-            appId: "1:426489473244:web:31f7ed80593cc225736c19",
-            measurementId: "G-267HR4361L"
-        };
+        // Funciones JavaScript (idénticas al original)
+        function cargarPlanes() {
+            const planList = document.getElementById("planList");
+            planList.innerHTML = "";
 
-        // Inicializar Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
+            const planes = JSON.parse(localStorage.getItem("planes")) || [];
 
-        // Función para agregar un plan
-        async function agregarPlan(event) {
-            event.preventDefault(); // Prevenir el envío del formulario
+            planes.forEach((plan, index) => {
+                const planItem = document.createElement("li");
+                planItem.className = "plan-list-item";
+                planItem.innerHTML = `
+                    <span>${plan.nombre} - Fecha: ${plan.fecha}</span>
+                `;
+
+                if (plan.hecho) {
+                    planItem.style.textDecoration = "line-through";
+                }
+
+                const hechoButton = document.createElement("button");
+                hechoButton.textContent = plan.hecho ? "Desmarcar" : "Hecho";
+                hechoButton.onclick = () => marcarComoHecho(index);
+
+                const borrarButton = document.createElement("button");
+                borrarButton.textContent = "Borrar";
+                borrarButton.onclick = () => borrarPlan(index);
+
+                planItem.appendChild(hechoButton);
+                planItem.appendChild(borrarButton);
+                planList.appendChild(planItem);
+            });
+        }
+
+        function agregarPlan(event) {
+            event.preventDefault();
 
             const nombrePlan = document.getElementById("planInput").value;
             const fechaPlan = document.getElementById("planDate").value;
 
             if (nombrePlan && fechaPlan) {
-                try {
-                    // Agregar el plan a Firestore
-                    await db.collection("planes").add({
-                        nombre: nombrePlan,
-                        fecha: fechaPlan
-                    });
+                const planes = JSON.parse(localStorage.getItem("planes")) || [];
+                planes.push({ nombre: nombrePlan, fecha: fechaPlan, hecho: false });
+                localStorage.setItem("planes", JSON.stringify(planes));
 
-                    // Limpiar los campos del formulario
-                    document.getElementById("planInput").value = "";
-                    document.getElementById("planDate").value = "";
-
-                    // Actualizar la lista de planes
-                    cargarPlanes();
-                } catch (error) {
-                    console.error("Error al agregar el plan: ", error);
-                }
+                document.getElementById("planInput").value = "";
+                document.getElementById("planDate").value = "";
+                cargarPlanes();
             }
         }
 
-        // Función para cargar los planes desde Firestore
-        async function cargarPlanes() {
-            const planList = document.getElementById("planList");
-            planList.innerHTML = ""; // Limpiar la lista antes de cargarla
-
-            try {
-                const snapshot = await db.collection("planes").get();
-                snapshot.forEach(doc => {
-                    const plan = doc.data();
-                    const planItem = document.createElement("li");
-                    planItem.textContent = `${plan.nombre} - Fecha: ${plan.fecha}`;
-                    planList.appendChild(planItem);
-                });
-            } catch (error) {
-                console.error("Error al cargar los planes: ", error);
-            }
+        function marcarComoHecho(index) {
+            const planes = JSON.parse(localStorage.getItem("planes"));
+            planes[index].hecho = !planes[index].hecho;
+            localStorage.setItem("planes", JSON.stringify(planes));
+            cargarPlanes();
         }
 
-        // Cargar los planes al cargar la página
+        function borrarPlan(index) {
+            const planes = JSON.parse(localStorage.getItem("planes"));
+            planes.splice(index, 1);
+            localStorage.setItem("planes", JSON.stringify(planes));
+            cargarPlanes();
+        }
+
         window.onload = function() {
-            cargarPlanes(); // Asegúrate de que los planes se carguen al inicio
-            // Asociar la función agregarPlan al formulario
+            cargarPlanes();
             document.getElementById("planForm").onsubmit = agregarPlan;
         };
     </script>
 </head>
 <body>
     <header>
-        <!-- Zona segura -->
-        <a href="principal.html"><h1>Zona Segura</h1></a>
-
-        <!-- Menú principal -->
-        <div class="menu">
+        <a href="principal.html">
+            <h1>Zona Segura</h1>
+        </a>
+        <nav class="menu">
             <a href="imagenes.html">Imágenes</a>
             <a href="videos.html">Videos</a>
             <a href="planes.html">Planes</a>
             <a href="mapa.html">Mapa</a>
-        </div>
+        </nav>
     </header>
 
-    <!-- Sección principal de planes -->
-    <main class="container">
-        <section class="plan-section">
-            <h2 style="color:white;">Gestión de Planes</h2>
+    <main>
 
-            <!-- Formulario para agregar un plan -->
-            <form id="planForm" class="contact-form">
+        <!-- Zona de planes -->
+        <section class="plan-section">
+            <h2>Planes</h2>
+            <form id="planForm">
                 <input type="text" id="planInput" placeholder="Nombre del plan..." required>
                 <input type="date" id="planDate" required>
-
                 <button type="submit">Agregar Plan</button>
             </form>
-
-            <!-- Lista de planes -->
-            <ul id="planList" class="plan-list">
-                <!-- Los planes serán cargados aquí -->
-            </ul>
+            <ul id="planList" class="plan-list"></ul>
         </section>
     </main>
 
